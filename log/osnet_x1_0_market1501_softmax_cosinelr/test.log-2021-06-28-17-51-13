@@ -1,0 +1,197 @@
+Show configuration
+adam:
+  beta1: 0.9
+  beta2: 0.999
+cuhk03:
+  classic_split: False
+  labeled_images: False
+  use_metric_cuhk03: False
+data:
+  combineall: False
+  height: 256
+  k_tfm: 1
+  load_train_targets: False
+  norm_mean: [0.485, 0.456, 0.406]
+  norm_std: [0.229, 0.224, 0.225]
+  root: .\DukeMTMC
+  save_dir: log/osnet_x1_0_market1501_softmax_cosinelr
+  sources: ['dukemtmcreid']
+  split_id: 0
+  targets: ['dukemtmcreid']
+  transforms: ['random_flip']
+  type: image
+  width: 128
+  workers: 4
+loss:
+  name: softmax
+  softmax:
+    label_smooth: True
+  triplet:
+    margin: 0.3
+    weight_t: 1.0
+    weight_x: 0.0
+market1501:
+  use_500k_distractors: False
+model:
+  load_weights: pretrain/osnet_x1_0_duke_256x128_amsgrad_ep150_stp60_lr0.0015_b64_fb10_softmax_labelsmooth_flip.pth
+  name: osnet_x1_0
+  pretrained: True
+  resume: 
+rmsprop:
+  alpha: 0.99
+sampler:
+  num_cams: 1
+  num_datasets: 1
+  num_instances: 4
+  train_sampler: RandomSampler
+  train_sampler_t: RandomSampler
+sgd:
+  dampening: 0.0
+  momentum: 0.9
+  nesterov: False
+test:
+  batch_size: 300
+  dist_metric: euclidean
+  eval_freq: -1
+  evaluate: True
+  normalize_feature: False
+  ranks: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  rerank: False
+  start_eval: 0
+  visrank: False
+  visrank_topk: 10
+train:
+  base_lr_mult: 0.1
+  batch_size: 64
+  fixbase_epoch: 10
+  gamma: 0.1
+  lr: 0.0015
+  lr_scheduler: cosine
+  max_epoch: 250
+  new_layers: ['classifier']
+  open_layers: ['classifier']
+  optim: amsgrad
+  print_freq: 20
+  seed: 1
+  staged_lr: False
+  start_epoch: 0
+  stepsize: [20]
+  weight_decay: 0.0005
+use_gpu: True
+video:
+  pooling_method: avg
+  sample_method: evenly
+  seq_len: 15
+
+Collecting env info ...
+** System info **
+PyTorch version: 1.9.0
+Is debug build: False
+CUDA used to build PyTorch: 11.1
+ROCM used to build PyTorch: N/A
+
+OS: Microsoft Windows 10 Home
+GCC version: Could not collect
+Clang version: Could not collect
+CMake version: Could not collect
+Libc version: N/A
+
+Python version: 3.9 (64-bit runtime)
+Python platform: Windows-10-10.0.19041-SP0
+Is CUDA available: True
+CUDA runtime version: 11.3.109
+GPU models and configuration: GPU 0: NVIDIA GeForce GTX 1080
+Nvidia driver version: 471.11
+cuDNN version: Could not collect
+HIP runtime version: N/A
+MIOpen runtime version: N/A
+
+Versions of relevant libraries:
+[pip3] numpy==1.21.0
+[pip3] torch==1.9.0
+[pip3] torchaudio==0.9.0
+[pip3] torchreid==1.4.0
+[pip3] torchvision==0.10.0
+[conda] blas                      2.109                       mkl    conda-forge
+[conda] blas-devel                3.9.0                     9_mkl    conda-forge
+[conda] cudatoolkit               11.1.1               heb2d755_7    conda-forge
+[conda] libblas                   3.9.0                     9_mkl    conda-forge
+[conda] libcblas                  3.9.0                     9_mkl    conda-forge
+[conda] liblapack                 3.9.0                     9_mkl    conda-forge
+[conda] liblapacke                3.9.0                     9_mkl    conda-forge
+[conda] mkl                       2021.2.0           hb70f87d_389    conda-forge
+[conda] mkl-devel                 2021.2.0           h57928b3_390    conda-forge
+[conda] mkl-include               2021.2.0           hb70f87d_389    conda-forge
+[conda] numpy                     1.21.0           py39h6635163_0    conda-forge
+[conda] pytorch                   1.9.0           py3.9_cuda11.1_cudnn8_0    pytorch
+[conda] torchaudio                0.9.0                      py39    pytorch
+[conda] torchreid                 1.4.0                     dev_0    <develop>
+[conda] torchvision               0.10.0               py39_cu111    pytorch
+        Pillow (8.2.0)
+
+Building train transforms ...
++ resize to 256x128
++ random flip
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+Building test transforms ...
++ resize to 256x128
++ to torch tensor of range [0, 1]
++ normalization (mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+=> Loading train (source) dataset
+=> Loaded DukeMTMCreID
+  ----------------------------------------
+  subset   | # ids | # images | # cameras
+  ----------------------------------------
+  train    |   702 |    16522 |         8
+  query    |   702 |     2228 |         8
+  gallery  |  1110 |    17661 |         8
+  ----------------------------------------
+=> Loading test (target) dataset
+=> Loaded DukeMTMCreID
+  ----------------------------------------
+  subset   | # ids | # images | # cameras
+  ----------------------------------------
+  train    |   702 |    16522 |         8
+  query    |   702 |     2228 |         8
+  gallery  |  1110 |    17661 |         8
+  ----------------------------------------
+
+
+  **************** Summary ****************
+  source            : ['dukemtmcreid']
+  # source datasets : 1
+  # source ids      : 702
+  # source images   : 16522
+  # source cameras  : 8
+  target            : ['dukemtmcreid']
+  *****************************************
+
+
+Building model: osnet_x1_0
+Successfully loaded imagenet pretrained weights from "C:\Users\Matt2/.cache\torch\checkpoints\osnet_x1_0_imagenet.pth"
+** The following layers are discarded due to unmatched keys or layer size: ['classifier.weight', 'classifier.bias']
+Model complexity: params=2,193,616 flops=978,878,352
+Successfully loaded pretrained weights from "pretrain/osnet_x1_0_duke_256x128_amsgrad_ep150_stp60_lr0.0015_b64_fb10_softmax_labelsmooth_flip.pth"
+Building softmax-engine for image-reid
+##### Evaluating dukemtmcreid (source) #####
+Extracting features from query set ...
+Done, obtained 2228-by-512 matrix
+Extracting features from gallery set ...
+Done, obtained 17661-by-512 matrix
+Speed: 0.1471 sec/batch
+Computing distance matrix with metric=euclidean ...
+Computing CMC and mAP ...
+** Results **
+mAP: 70.2%
+CMC curve
+Rank-1          : 87.0%
+Rank-2          : 90.4%
+Rank-3          : 92.0%
+Rank-4          : 92.5%
+Rank-5          : 93.4%
+Rank-6          : 93.8%
+Rank-7          : 94.4%
+Rank-8          : 94.7%
+Rank-9          : 94.8%
+Rank-10         : 95.0%
